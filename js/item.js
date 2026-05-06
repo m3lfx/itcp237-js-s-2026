@@ -131,4 +131,33 @@ $(document).ready(function () {
             }
         });
     });
+
+    $("#itemUpdate").on('click', function (e) {
+        e.preventDefault();
+        var id = $('#itemId').val();
+        console.log(id);
+        var table = $('#itable').DataTable();
+
+        var data = $('#iform')[0];
+        let formData = new FormData(data);
+        formData.append("_method", "PUT")
+        $.ajax({
+            method: "POST",
+            url: `${url}/api/v1/items/${id}`,
+            data: formData,
+            contentType: false,
+            processData: false,
+
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                $('#itemModal').modal("hide");
+                table.ajax.reload()
+
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    });
 })
