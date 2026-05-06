@@ -91,4 +91,44 @@ $(document).ready(function () {
         // }
 
     });
+
+    $('#itable tbody').on('click', 'a.editBtn', function (e) {
+        e.preventDefault();
+        $('#itemImage').remove()
+        $('#itemId').remove()
+        $("#iform").trigger("reset");
+        var id = $(this).data('id');
+        console.log(id);
+        $('#itemModal').modal('show');
+        $('<input>').attr({ type: 'hidden', id: 'itemId', name: 'item_id', value: id }).appendTo('#iform');
+
+        $('#itemSubmit').hide()
+        $('#itemUpdate').show()
+
+        $.ajax({
+            method: "GET",
+            url: `${url}/api/v1/items/${id}`,
+            dataType: "json",
+            success: function (data) {
+                const { description,
+                    item_id,
+                    stock,
+                    cost_price,
+                    sell_price,
+
+                    img_path } = data
+
+                console.log(data);
+                $('#desc').val(description)
+                $('#sell').val(sell_price)
+                $('#cost').val(cost_price)
+                $('#qty').val(stock.quantity)
+                $("#iform").append(`<img src="${url}/${img_path}" width='200px', height='200px' id="itemImage"   />`)
+
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    });
 })
