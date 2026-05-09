@@ -4,6 +4,15 @@ $(document).ready(function () {
     var priceTotal = 0;
     var quantity = 0;
 
+    const getCart = () => {
+        let cart = localStorage.getItem('cart');
+        return cart ? JSON.parse(cart) : [];
+    }
+
+    const saveCart = cart => {
+        localStorage.setItem('cart', JSON.stringify(cart));
+    }
+
     $.ajax({
         method: "GET",
         url: `${url}api/v1/items`,
@@ -76,6 +85,38 @@ $(document).ready(function () {
             console.log(error);
 
         }
+    });
+
+    $(document).on('click', '#detailsAddToCart', function () {
+
+        const qty = parseInt($("#detailsQty").val());
+        const id = $("#detailsItemId").val();
+        const description = $("#productDetailsModalLabel").text();
+        const price = $("#productDetailsModalBody strong").text().replace(/[^\d.]/g, '');
+        const image = $("#productDetailsModalBody img").attr('src');
+        const stock = parseInt($("#productDetailsModalBody p:contains('Stock')").text().replace(/[^\d]/g, ''));
+        let cart = getCart();
+
+        let existing = cart.find(item => item.item_id == id);
+        if (existing) {
+            existing.quantity += qty;
+        } else {
+            cart.push({
+                item_id: id,
+                description: description,
+                price: parseFloat(price),
+                image: image,
+                stock: stock,
+                quantity: qty
+            });
+        }
+        saveCart(cart);
+
+        itemCount++;
+        $('#itemCount').text(itemCount).css('display', 'block');
+        $('#productDetailsModal').modal('hide')
+        console.log(cart)
+
     });
 
     $("#home").load("header.html")
