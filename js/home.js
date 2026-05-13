@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  const url = 'http://172.34.96.144:8000/'
+  const url = 'http://172.34.11.117:8000/'
   var itemCount = 0;
   var priceTotal = 0;
   var quantity = 0;

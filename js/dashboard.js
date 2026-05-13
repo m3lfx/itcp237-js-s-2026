@@ -1,9 +1,27 @@
 $(document).ready(function () {
-    const url = 'http://172.34.96.144:8000/'
+    const url = 'http://172.34.11.117:8000/'
+    const getToken = () => {
+        const token = sessionStorage.getItem('token');
+
+        if (!token) {
+            Swal.fire({
+                icon: 'warning',
+                text: 'You must be logged in to access this page.',
+                showConfirmButton: true
+            }).then(() => {
+                window.location.href = 'login.html';
+            });
+            return;
+        }
+        return JSON.parse(token)
+    }
     $.ajax({
         method: "GET",
         url: `${url}api/v1/dashboard/address-chart`,
         dataType: "json",
+        headers: {
+            "Authorization": "Bearer " + getToken()
+        },
         success: function (data) {
             // console.log(data);
             const { values, labels } = data
@@ -64,6 +82,9 @@ $(document).ready(function () {
         type: "GET",
         url: `${url}api/v1/dashboard/sales-chart`,
         dataType: "json",
+        headers: {
+            "Authorization": "Bearer " + getToken()
+        },
         success: function (data) {
             console.log(data);
             const { values, labels } = data
@@ -112,6 +133,9 @@ $(document).ready(function () {
         type: "GET",
         url: `${url}api/v1/dashboard/items-chart`,
         dataType: "json",
+        headers: {
+            "Authorization": "Bearer " + getToken()
+        },
         success: function (data) {
             console.log(data);
             const { values, labels } = data
