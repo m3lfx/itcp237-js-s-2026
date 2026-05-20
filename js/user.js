@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    const url = 'http://172.34.11.117:8000/'
+    const url = 'http://localhost:4000/'
 
     $("#register").on('click', function (e) {
         e.preventDefault();
@@ -13,7 +13,7 @@ $(document).ready(function () {
         }
         $.ajax({
             method: "POST",
-            url: `${url}api/register`,
+            url: `${url}api/v1/register`,
             data: JSON.stringify(user),
             processData: false,
             contentType: 'application/json; charset=utf-8',
@@ -35,6 +35,7 @@ $(document).ready(function () {
 
     $('#avatar').on('change', function () {
         const file = this.files[0];
+        console.log(this.files[0])
         if (file) {
             const reader = new FileReader();
             reader.onload = function (e) {
@@ -56,7 +57,7 @@ $(document).ready(function () {
         }
         $.ajax({
             method: "POST",
-            url: `${url}api/login`,
+            url: `${url}api/v1/login`,
             data: JSON.stringify(user),
             processData: false,
             contentType: 'application/json; charset=utf-8',
@@ -71,7 +72,8 @@ $(document).ready(function () {
                     timerProgressBar: true
 
                 });
-                sessionStorage.setItem('token', JSON.stringify(data.access_token))
+                sessionStorage.setItem('token', JSON.stringify(data.token))
+                sessionStorage.setItem('user', JSON.stringify(data.user.id))
                 window.location.href = 'profile.html'
             },
             error: function (error) {

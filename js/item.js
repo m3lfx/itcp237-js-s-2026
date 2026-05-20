@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    const url = 'http://172.34.11.117:8000'
+    const url = 'http://localhost:4000'
     const getToken = () => {
         const token = sessionStorage.getItem('token');
 
@@ -19,7 +19,7 @@ $(document).ready(function () {
     $('#itable').DataTable({
         ajax: {
             url: `${url}/api/v1/items`,
-            dataSrc: '',
+            dataSrc: 'rows',
             // headers: {
             //     "Authorization": "Bearer " + access_token 
             // },
@@ -51,7 +51,7 @@ $(document).ready(function () {
             { data: 'description' },
             { data: 'cost_price' },
             { data: 'sell_price' },
-            { data: 'stock.quantity' },
+            { data: 'quantity' },
             {
                 data: null,
                 render: function (data, type, row) {
@@ -130,17 +130,16 @@ $(document).ready(function () {
             success: function (data) {
                 const { description,
                     item_id,
-                    stock,
                     cost_price,
                     sell_price,
-
-                    img_path } = data
+                    quantity,
+                    img_path } = data.result[0]
 
                 console.log(data);
                 $('#desc').val(description)
                 $('#sell').val(sell_price)
                 $('#cost').val(cost_price)
-                $('#qty').val(stock.quantity)
+                $('#qty').val(quantity)
                 $("#iform").append(`<img src="${url}/${img_path}" width='200px', height='200px' id="itemImage"   />`)
 
             },
@@ -158,9 +157,9 @@ $(document).ready(function () {
 
         var data = $('#iform')[0];
         let formData = new FormData(data);
-        formData.append("_method", "PUT")
+        // formData.append("_method", "PUT")
         $.ajax({
-            method: "POST",
+            method: "PUT",
             url: `${url}/api/v1/items/${id}`,
             data: formData,
             contentType: false,

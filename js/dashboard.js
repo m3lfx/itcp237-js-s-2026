@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    const url = 'http://172.34.11.117:8000/'
+    const url = '192.168.68.102:8000/'
     const getToken = () => {
         const token = sessionStorage.getItem('token');
 

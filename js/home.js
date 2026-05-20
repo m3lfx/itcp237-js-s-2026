@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  const url = 'http://172.34.11.117:8000/'
+  const url = 'http://localhost:4000/'
   var itemCount = 0;
   var priceTotal = 0;
   var quantity = 0;
@@ -22,18 +22,18 @@ $(document).ready(function () {
       $("#items").empty();
       //     // Start a row
       let row;
-      $.each(data, function (key, value) {
+      $.each(data.rows, function (key, value) {
         if (key % 4 === 0) {
           row = $('<div class="row"></div>');
           $("#items").append(row);
         }
         // console.log(key);
         var item = `<div class="col-md-3 mb-4">
-                <div class="card h-100"><img src="${url}${value.img_path}" class="card-img-top" alt="${value.description}" ><div class="card-body"><h5 class="card-title">${value.description}</h5><p class="card-text">₱ ${value.sell_price}</p><p class="card-text"><small class="text-muted">Stock: ${value.stock.quantity ?? 0}</small></p><a href="#!" class="btn btn-primary show-details" role="button" data-id="${value.item_id}"
+                <div class="card h-100"><img src="${url}${value.img_path}" class="card-img-top" alt="${value.description}" ><div class="card-body"><h5 class="card-title">${value.description}</h5><p class="card-text">₱ ${value.sell_price}</p><p class="card-text"><small class="text-muted">Stock: ${value.quantity ?? 0}</small></p><a href="#!" class="btn btn-primary show-details" role="button" data-id="${value.item_id}"
                                     data-description="${value.description}"
                                     data-price="${value.sell_price}"
                                     data-image="${value.img_path}"
-                                    data-stock="${value.stock.quantity ?? 0}">Details</a></div></div></div>`;
+                                    data-stock="${value.quantity ?? 0}">Details</a></div></div></div>`;
         row.append(item);
 
       });
