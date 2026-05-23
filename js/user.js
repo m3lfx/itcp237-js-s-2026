@@ -1,5 +1,10 @@
 $(document).ready(function () {
     const url = 'http://localhost:4000/'
+    function getUserId() {
+        let userId = sessionStorage.getItem('user');
+
+        return userId ?? '';
+    }
 
     $("#register").on('click', function (e) {
         e.preventDefault();
@@ -93,8 +98,9 @@ $(document).ready(function () {
 
     $("#updateBtn").on('click', function (event) {
         event.preventDefault();
-        userId = sessionStorage.getItem('userId') ?? sessionStorage.getItem('userId')
-
+        // userId = sessionStorage.getItem('userId') ?? sessionStorage.getItem('userId')
+        userId = getUserId()
+        console.log(userId)
         var data = $('#profileForm')[0];
 
         let formData = new FormData(data);
@@ -145,5 +151,21 @@ $(document).ready(function () {
                 console.log(error);
             }
         });
+    });
+
+    $("#logout").on('click', function (e) {
+        e.preventDefault();
+        Swal.fire({
+            text: 'logout',
+            showConfirmButton: false,
+            position: 'bottom-right',
+            timer: 1000,
+            timerProgressBar: true
+
+        });
+        sessionStorage.removeItem('token')
+        sessionStorage.removeItem('user')
+        window.location.href = 'login.html'
+
     });
 })

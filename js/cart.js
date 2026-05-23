@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    const url = 'http://192.168.68.102:8000/'
+    const url = 'http://localhost:4000/'
     function getCart() {
         let cart = localStorage.getItem('cart');
         return cart ? JSON.parse(cart) : [];
@@ -47,11 +47,11 @@ $(document).ready(function () {
         $('#cartTable').html(html);
     }
 
-    // function getUserId() {
-    //     let userId = sessionStorage.getItem('userId');
+    function getUserId() {
+        let userId = sessionStorage.getItem('user');
 
-    //     return userId ?? '';
-    // }
+        return userId ?? '';
+    }
 
     const getToken = () => {
         const token = sessionStorage.getItem('token');
@@ -86,14 +86,15 @@ $(document).ready(function () {
         let cart = getCart()
         // let userId = getUserId()
 
-        console.log(JSON.stringify(cart));
+        // console.log(JSON.stringify(cart));
 
-        const payload = JSON.stringify(cart);
+        const payload = JSON.stringify({ cart });
         console.log(payload)
         if (getToken()) {
             $.ajax({
                 type: "POST",
-                url: `${url}api/v1/items/checkout`,
+                // url: `${url}api/v1/items/checkout`,
+                url: `${url}api/v1/create-order`,
                 data: payload,
                 dataType: "json",
                 processData: false,
