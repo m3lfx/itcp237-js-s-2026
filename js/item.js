@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    $("#home").load("header.html")
     const url = 'http://localhost:4000'
     const getToken = () => {
         const token = sessionStorage.getItem('token');
@@ -231,4 +232,5 @@ $(document).ready(function () {
         }
 
     })
+
 })
